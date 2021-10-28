@@ -60,7 +60,6 @@ def load_level():
 
     add_object__.reset()
     level_list = file_lines[new_user - 1]
-    level_list.
 
     file.close()
 
