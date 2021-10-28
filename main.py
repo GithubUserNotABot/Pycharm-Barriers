@@ -1,5 +1,6 @@
 import pygame
 import add_object__
+import level_editor
 
 win = pygame.display.set_mode((1000, 900))
 A_ = add_object__
@@ -38,6 +39,23 @@ while True:
             if event.key == pygame.K_w:
                 break_key[3] = False
                 key[3] = 'w'
+
+            # == Control Z ==
+            if event.key == pygame.K_LCTRL:
+                add_object__.control_z()
+
+            # == Save the level ==
+            if event.key == pygame.K_q:
+                level_editor.save_level()
+            # == Load some Level ==
+            if event.key == pygame.K_e:
+                level_editor.load_level()
+            # == Level Begin ==
+            if event.key == pygame.K_z:
+                level_editor.begin_level(pygame.mouse.get_pos())
+            # == Level End ==
+            if event.key == pygame.K_x:
+                level_editor.end_level(pygame.mouse.get_pos())
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_d:
                 break_key[0] = True
@@ -51,7 +69,6 @@ while True:
             if event.key == pygame.K_w:
                 break_key[3] = True
                 key[3] = None
-
         # == Get mouse press ==
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
@@ -77,7 +94,6 @@ while True:
     coll_flag = A_.coll_flagger()  # gets the return
     if coll_flag[0]:  # interprets it
         player_x, player_y = 0, 0  # uses the data!!
-    print(coll_flag)
 
     # ==== Working on it ====
     pygame.draw.rect(win, (255, 50, 200), (player_x, player_y, player_size[0], player_size[1]))

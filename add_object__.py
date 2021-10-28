@@ -21,10 +21,19 @@ def get_size(player_size, block_size):
     player_size2 = player_size
     block_size2 = block_size
 
-def make(color, pos, size):
+def get_objects():
+    return rect_update_list
+
+def make(color, pos, size, cntrl=None):
     global rect_update_list, win2
     pygame.draw.rect(win2, color, (pos[0], pos[1], size[0], size[1]))
-    rect_update_list.append([win2, color, (pos[0], pos[1], size[0], size[1])])
+    if cntrl is None:
+        rect_update_list.append([win2, color, (pos[0], pos[1], block_size2[0], block_size2[1])])
+    if cntrl is not None:
+        if cntrl == "end level":
+            rect_update_list.insert(1, [win2, color, (pos[0], pos[1], block_size2[0], block_size2[1])])
+        if cntrl == "begin level":
+            rect_update_list.insert(0, [win2, color, (pos[0], pos[1], block_size2[0], block_size2[1])])
 
 def update__(x, y):
     global update_step, rect_update_list, win2, collision_flag
@@ -58,10 +67,20 @@ def collision(x, y):
         place_in_space = [new_rect[2][0], new_rect[2][1]]
         if x + player_size2[0] >= place_in_space[0] and y + player_size2[1] >= place_in_space[1]:
             if x <= place_in_space[0] + block_size2[0] and y <= place_in_space[1] + block_size2[1]:
-                # Interrupt = True
                 return "collision"
 
         collision_step += 1
         if collision_step == len(rect_list):
             collision_step = 0
             break
+
+def control_z():
+    if not rect_update_list:
+        print(" === Make something first! === ")
+    if rect_update_list:
+        last_num = len(rect_update_list)
+        rect_update_list.remove(rect_update_list[last_num - 1])
+
+def reset():
+    global rect_update_list
+    rect_update_list = []
